@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>個人數位履歷</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      background: #001f3f;
+      padding: 20px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    canvas#bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 0 30px rgba(0,255,255,0.3);
+      text-align: center;
+    }
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+      cursor: pointer;
+    }
+    .info-boxes {
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .info-boxes.active { display: flex; }
+    .info-box {
+      background: rgba(0,255,255,0.1);
+      padding: 10px 15px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.2);
+      text-align: left;
+      animation: fadeIn 0.5s ease-in-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .projects, .side-sections {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 100%;
+    }
+    .project, .side-box {
+      flex: 1 1 300px;
+      min-width: 280px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .project a { color: #00ffff; text-decoration: none; font-weight: bold; }
+    .side-box h3 { color: #00ffff; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+<div class="container">
+  <img src="/mnt/data/sCqcOlQcQ1qpRmmUGfutQw.webp" alt="大頭照" class="profile-pic" onclick="toggleInfo()">
+  <h1>個人數位履歷</h1>
+  <img src="M.jpg"生活紀錄1" style="width:50%; margin-top:10px; border-radius:8px;"/>
+  <div id="infoBoxes" class="info-boxes">
+    <div class="info-box"><strong>學歷：</strong><br>大學畢業於銘傳財務金融系，目前就讀國立海洋大學水產養殖系</div>
+    <div class="info-box"><strong>工作經歷：</strong><br>
+      🧾 個人工作經歷摘要（約10~11年）<br>
+      ✅ 爭鮮股份有限公司 — 專案主任（2023/5 – 2024/10）<br>
+      ✅ 三商家購 — 採購課長（2022/11 – 2023/4）<br>
+      ✅ 萊爾富 — 採購專員（2017/6 – 2022/11）<br>
+      ✅ OK超商 — 採購專員（2012/8 – 2012/12）<br>
+      ✅ 長古公司 — 業務助理（2010/8 – 2017/5）</div>
+    <div class="info-box"><strong>研究方向：</strong><br>主要研究水產養殖經濟</div>
+    <div class="info-box"><strong>休閒活動：</strong><br>游泳、中台世界博物館義工</div>
+  </div>
+</div>
+<div class="projects">
+  <div class="project">
+    <h3>外木山風景區即時影像</h3>
+    <p>基隆市湖海路外木山風景區的海景即時影像，每3秒自動更新。</p>
+    <iframe id="wmsCam" src="https://tw.live/cam/?id=T204820" width="80%" height="240" style="border:none;"></iframe>
+  </div>
+</div>
+<div class="side-sections">
+<img src="生活/S__43868163_0.jpg alt="生活紀錄1" style="width:50% margin-top:10px; border-radius:8px;"/>
+<img src="生活/S__43868168_0.jpg alt="生活紀錄1" style="width:50% margin-top:10px; border-radius:8px;"/>
+</div>
+<img src="sushi.jpg"爭鮮圖像" style="width: 50%; margin-top:10px; border-radius:8px;"/>
+<img src="HILIFE.JPG"萊爾富圖像" style="width:50%margin-top:10px; border-radius:8px;"/>
+</div>
+</div>
+<script>
+  function toggleInfo() {
+    document.getElementById('infoBoxes').classList.toggle('active');
+  }
+
+  setInterval(() => {
+    const iframe = document.getElementById('wmsCam');
+    iframe.src = iframe.src;
+  }, 3000);
+
+  const hour = new Date().getHours();
+  if (hour >= 18 || hour < 6) {
+    document.body.style.background = '#000618';
+  }
+
+  function drawNeuralNet() {
+    const canvas = document.getElementById('bgCanvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+    const nodes = Array.from({ length: 40 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: 2 + Math.random() * 3,
+      dx: (Math.random() - 0.5) * 0.6,
+      dy: (Math.random() - 0.5) * 0.6,
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,255,255,0.6)';
+        ctx.fill();
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist < 100) {
+            ctx.strokeStyle = 'rgba(0,255,255,' + (1 - dist / 100) + ')';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      nodes.forEach(n => {
+        n.x += n.dx;
+        n.y += n.dy;
+        if (n.x < 0 || n.x > canvas.width) n.dx *= -1;
+        if (n.y < 0 || n.y > canvas.height) n.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  drawNeuralNet();
+  window.addEventListener('resize', drawNeuralNet);
+</script>
+</body>
+</html>
